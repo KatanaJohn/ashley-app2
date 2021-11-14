@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="baseline.FXMLController">
+   <children>
+      <MenuBar fx:id="menuBar" prefHeight="25.0" prefWidth="671.0">
+         <menus>
+            <Menu fx:id="menu" mnemonicParsing="false" text="File">
+               <items>
+                  <MenuItem fx:id="openButton" mnemonicParsing="false" onAction="#loadFile" text="Open Inventory" />
+                  <MenuItem fx:id="saveButton" mnemonicParsing="false" onAction="#saveList" text="Save Inventory" />
+               </items>
+            </Menu>
+            <Menu fx:id="viewListButton" mnemonicParsing="false" text="View">
+               <items>
+                  <MenuItem fx:id="menuCompleteButton" mnemonicParsing="false" onAction="#displayCompletedItems" text="Sort By Serial Number" />
+                  <MenuItem fx:id="menuIncompleteButton" mnemonicParsing="false" onAction="#displayIncompletedItems" text="Sort By Name" />
+                  <MenuItem fx:id="viewAllButton" mnemonicParsing="false" onAction="#displayAllItems" text="Sort By Value" />
+               </items>
+            </Menu>
+         </menus>
+      </MenuBar>
+      <Separator opacity="0.0" prefHeight="17.0" prefWidth="600.0" />
+      <HBox alignment="TOP_CENTER" prefHeight="0.0" prefWidth="600.0" spacing="10.0">
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+         <children>
+            <TextField fx:id="currentDescription" alignment="CENTER" prefHeight="25.0" prefWidth="191.0" promptText="Item Name" />
+            <TextField fx:id="currentDescription1" alignment="CENTER" prefHeight="25.0" prefWidth="89.0" promptText="\$$$" />
+            <TextField fx:id="currentDescription11" alignment="CENTER" prefHeight="25.0" prefWidth="89.0" promptText="Serial" />
+         </children>
+      </HBox>
+      <HBox alignment="CENTER" prefHeight="35.0" prefWidth="600.0">
+         <children>
+            <Button fx:id="addItem" mnemonicParsing="false" onAction="#addItem" text="Add Item">
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin></Button>
+            <Button fx:id="editItem" mnemonicParsing="false" onAction="#editItem" text="Edit Item">
+               <HBox.margin>
+                  <Insets left="15.0" right="15.0" />
+               </HBox.margin></Button>
+            <Button fx:id="deleteItem" mnemonicParsing="false" onAction="#deleteItem" text="Delete Item">
+               <HBox.margin>
+                  <Insets right="15.0" />
+               </HBox.margin></Button>
+            <Button fx:id="deleteAll" mnemonicParsing="false" onAction="#deleteAll" text="Delete All" />
+         </children>
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+         <VBox.margin>
+            <Insets top="10.0" />
+         </VBox.margin>
+      </HBox>
+      <Separator opacity="0.0" prefHeight="21.0" prefWidth="600.0" />
+      <SplitPane orientation="VERTICAL" prefHeight="306.0" prefWidth="600.0">
+        <items>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="268.0" prefWidth="598.0">
+               <children>
+                  <TableView fx:id="tableOfItems" layoutX="-3.0" layoutY="-5.0" prefHeight="313.0" prefWidth="598.0">
+                    <columns>
+                      <TableColumn fx:id="description" prefWidth="366.0" text="Name" />
+                      <TableColumn fx:id="dueDate" minWidth="0.0" prefWidth="121.0" text="Monetary Value" />
+                        <TableColumn fx:id="completion" minWidth="0.0" prefWidth="121.0" text="Serial" />
+                    </columns>
+                  </TableView>
+               </children>
+            </AnchorPane>
+        </items>
+      </SplitPane>
+   </children>
+</VBox>
