@@ -18,23 +18,15 @@
    <children>
       <MenuBar fx:id="menuBar" prefHeight="10.0" prefWidth="531.0">
          <menus>
-            <Menu fx:id="menu" mnemonicParsing="false" text="File">
+            <Menu fx:id="fileButton" mnemonicParsing="false" text="File">
                <items>
                   <MenuItem fx:id="openButton" mnemonicParsing="false" onAction="#openInventoryFile" text="Open Inventory" />
                   <MenuItem fx:id="saveButton" mnemonicParsing="false" onAction="#saveInventoryFile" text="Save Inventory" />
                </items>
             </Menu>
-            <Menu fx:id="viewListButton" mnemonicParsing="false" text="View">
+            <Menu fx:id="searchButton" mnemonicParsing="false" text="Search">
                <items>
-                  <MenuItem fx:id="menuSortSerial" mnemonicParsing="false" onAction="#sortBySerialNumber" text="Sort By Serial Number" />
-                  <MenuItem fx:id="menuSortNameButton" mnemonicParsing="false" onAction="#sortByName" text="Sort By Name" />
-                  <MenuItem fx:id="menuSortValueButton" mnemonicParsing="false" onAction="#sortByValue" text="Sort By Value" />
-               </items>
-            </Menu>
-            <Menu fx:id="menu1" mnemonicParsing="false" text="Search">
-               <items>
-                  <MenuItem fx:id="nameSearchButton" mnemonicParsing="false" onAction="#searchByName" text="Search For Name" />
-                  <MenuItem fx:id="serialSearchButton" mnemonicParsing="false" onAction="#searchBySerial" text="Search For Serial" />
+                  <MenuItem fx:id="searchButton2" mnemonicParsing="false" onAction="#loadSearchMenu" text="Search For..." />
                </items>
             </Menu>
          </menus>

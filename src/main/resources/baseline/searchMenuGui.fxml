@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="baseline.SearchController">
+   <children>
+      <HBox alignment="CENTER_LEFT" prefHeight="54.0" prefWidth="600.0">
+         <children>
+            <Label prefHeight="17.0" prefWidth="99.0" text="Search For Name" textAlignment="CENTER">
+               <HBox.margin>
+                  <Insets left="15.0" />
+               </HBox.margin>
+            </Label>
+            <TextField fx:id="nameField" prefHeight="25.0" prefWidth="313.0">
+               <HBox.margin>
+                  <Insets left="15.0" right="15.0" />
+               </HBox.margin>
+            </TextField>
+            <Button fx:id="nameSearchButton" mnemonicParsing="false" onAction="#searchByName" text="Search" />
+         </children>
+      </HBox>
+      <HBox alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="600.0">
+         <children>
+            <Label prefHeight="17.0" prefWidth="99.0" text="Search For Serial">
+               <HBox.margin>
+                  <Insets left="15.0" />
+               </HBox.margin>
+            </Label>
+            <TextField fx:id="serialField" prefHeight="25.0" prefWidth="313.0">
+               <HBox.margin>
+                  <Insets left="15.0" right="15.0" />
+               </HBox.margin>
+            </TextField>
+            <Button fx:id="serialSearchButton" mnemonicParsing="false" onAction="#searchBySerial" text="Search" />
+         </children>
+      </HBox>
+      <TableView fx:id="tableOfItems" prefHeight="313.0" prefWidth="598.0">
+         <columns>
+            <TableColumn fx:id="nameColumn" prefWidth="366.0" text="Name" />
+            <TableColumn fx:id="valueColumn" minWidth="0.0" prefWidth="121.0" text="Monetary Value" />
+            <TableColumn fx:id="serialColumn" minWidth="0.0" prefWidth="121.0" text="Serial" />
+         </columns>
+      </TableView>
+   </children>
+</VBox>

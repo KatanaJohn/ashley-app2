@@ -1,9 +1,13 @@
 package baseline;
 
 
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
@@ -12,8 +16,11 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 import java.io.File;
+import java.util.Objects;
 
 public class FXMLController {
 
@@ -30,22 +37,13 @@ public class FXMLController {
     private Button editButton;
 
     @FXML
-    private Menu menu;
+    private Menu fileButton;
 
     @FXML
-    private Menu menu1;
+    private Menu searchButton;
 
     @FXML
     private MenuBar menuBar;
-
-    @FXML
-    private MenuItem menuSortNameButton;
-
-    @FXML
-    private MenuItem menuSortSerial;
-
-    @FXML
-    private MenuItem menuSortValueButton;
 
     @FXML
     private TableColumn<Item, String> nameColumn;
@@ -54,13 +52,13 @@ public class FXMLController {
     private TextField nameField;
 
     @FXML
-    private MenuItem nameSearchButton;
-
-    @FXML
     private MenuItem openButton;
 
     @FXML
     private MenuItem saveButton;
+
+    @FXML
+    private MenuItem searchButton2;
 
     @FXML
     private TableColumn<Item, String> serialColumn;
@@ -79,9 +77,6 @@ public class FXMLController {
 
     @FXML
     private TextField valueField;
-
-    @FXML
-    private Menu viewListButton;
 
     @FXML
     void initialize()
@@ -267,6 +262,18 @@ public class FXMLController {
         //depending on the file type, calls a certain function to save in that file format
 
     }
+    @FXML
+    void loadSearchMenu(ActionEvent event) throws Exception
+    {
+        Parent root1 = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("searchMenuGui.fxml")));
+        Stage stage = new Stage();
+        //set what you want on your stage
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.setTitle("Report Page");
+        stage.setScene(new Scene(root1));
+        stage.setResizable(false);
+        stage.show();
+    }
 
     public void getInventoryHTML(File selectedFile)
     {
@@ -283,40 +290,15 @@ public class FXMLController {
         //writes information to file separating the 3 table rows with tabs
     }
 
-    @FXML
-    void sortByName(ActionEvent event) {
 
-        //table possibly sorts automatically?
-    }
 
-    @FXML
-    void sortBySerialNumber(ActionEvent event) {
 
-        //table possibly sorts automatically?
-    }
 
-    @FXML
-    void sortByValue(ActionEvent event) {
 
-        //table possibly sorts automatically?
-    }
-
-    @FXML
-    void searchByName(ActionEvent event) {
-
-        //takes name from search box
-
-        //checks the inventory for matching name and shows results in table
+    void filterList()
+    {
 
     }
 
-    @FXML
-    void searchBySerial(ActionEvent event) {
-
-        //takes serial from search box
-
-        //checks the inventory for matching serial numbers and displays it
-
-    }
 
 }
