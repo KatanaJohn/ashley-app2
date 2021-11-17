@@ -6,6 +6,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -16,10 +17,14 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import java.io.File;
+import java.util.List;
 import java.util.Objects;
 
 public class FXMLController {
@@ -251,17 +256,45 @@ public class FXMLController {
 
         //calls import list function
 
-        //reads through the list using buffered reader and splices it based on file type
-    }
+        //reads through the list using buffered reader and splices it based on file type by calling individual functions
+
+        }
 
     @FXML
     void saveInventoryFile(ActionEvent event) {
 
-        //uses filechooser to save file
+        //takes file chooser
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Choose a file to save");
+        fileChooser.setTitle("Save File");
+        //adds exxtension filters/choices on ways to save
+        fileChooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("HTML File", "*.html"),
+                new FileChooser.ExtensionFilter("GSON File", "*.gson"),
+                new FileChooser.ExtensionFilter("TSV File", "*.txt"));
 
-        //depending on the file type, calls a certain function to save in that file format
+        File file = fileChooser.showSaveDialog(tableOfItems.getScene().getWindow());
 
+        //creates new FileIO so when we call it we save based on it
+        FileIO fileIO = new FileIO();
+        //based on the file type chosen, we save the inventory inside a file
+        if (file != null) {
+            if (fileChooser.getSelectedExtensionFilter().getExtensions().get(0).equals("*.html")) {
+                fileIO.saveHTMLFile(file, Item.getInventory());
+            } else if (fileChooser.getSelectedExtensionFilter().getExtensions().get(0).equals("*.gson")) {
+                fileIO.saveJSONFile(file, Item.getInventory());
+            } else {
+
+                fileIO.saveTSVFile(file, Item.getInventory());
+            }
+        }
     }
+
+
+
+
+
+
     @FXML
     void loadSearchMenu(ActionEvent event) throws Exception
     {
@@ -273,31 +306,6 @@ public class FXMLController {
         stage.setScene(new Scene(root1));
         stage.setResizable(false);
         stage.show();
-    }
-
-    public void getInventoryHTML(File selectedFile)
-    {
-        //honestly not sure about this one
-    }
-
-    public void getInventoryJSON(File selectedFile)
-    {
-        //honestly not sure about this one
-    }
-
-    public void getInventoryTSV(File selectedFile)
-    {
-        //writes information to file separating the 3 table rows with tabs
-    }
-
-
-
-
-
-
-    void filterList()
-    {
-
     }
 
 

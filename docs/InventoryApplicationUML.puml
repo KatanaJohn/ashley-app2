@@ -1,0 +1,101 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+class InventoryManagementApplication
+{
+    +main(String[])
+    +start(Stage stage)
+}
+
+class Item
+{
+String: name
+String: serialNumber
+int: value
+List<Item>: Inventory
++Item()
++Item(String name, String serial, int moneyValue)
++String getName()
++setName(String name)
++String getSerialNumber()
++void setSerialNumber(String serialNumber)
++int getValue()
++void setValue(int moneyValue)
++List<Item> getInventory()
+}
+
+class FXMLController
+{
+- private int: index
+- WarningChecker: checker
+-Button addButton
+-Button deleteAllButton
+-Button deleteButton
+-Button editButton
+-Menu fileButton
+-Menu searchButton
+-MenuBar menuBar
+-TableColumn<Item, String> nameColumn
+-TextField nameField
+-MenuItem openButton
+-MenuItem saveButton
+-MenuItem searchButton2
+-TableColumn<Item, String> serialColumn
+-TextField serialField
+-MenuItem serialSearchButton
+-TableView<Item> tableOfItems
+-TableColumn<Item, Integer> valueColumn
+-TextField valueField
++void initialize()
++void addItem(ActionEvent event)
++boolean checkSameSerial(String serial)
++void deleteAll(ActionEvent event)
++void deleteItem(ActionEvent event)
++void editItem(ActionEvent event)
++void openInventoryFile(ActionEvent event)
++void saveInventoryFile(ActionEvent event)
++void loadSearchMenu(ActionEvent event) throws Exception
+}
+
+class FileIO
+{
++saveJSONFile(File file, List<Item> inventoryList)
++Item openHTMLFile(File file)
++Item openJSONFile(File file)
++Item openTSVFile(File file)
++void saveHTMLFile(File file, List<Item> inventoryList)
++void saveJSONFile(File file, List<Item> inventoryList)
++void saveTSVFile(File file, List<Item> itemList)
+}
+
+class SearchController
+{
+-TableColumn<Item, String> nameColumn
+-TextField nameField
+-Button nameSearchButton
+-TableColumn<Item, String> serialColumn
+-TextField serialField
+-Button serialSearchButton
+-TableView<Item> tableOfItems
+-TableColumn<Item, Integer> valueColumn
++void initialize()
++void searchByName(ActionEvent event)
++void searchBySerial(ActionEvent event)
++void displayItem(ObservableList<Item> items)
+
+}
+
+class WarningChecker
+{
++boolean checkName(String name)
++boolean checkSerial(String serialNumber)
++boolean checkValue(int value)
+}
+
+InventoryManagementApplication --o Item
+InventoryManagementApplication --o FXMLController
+InventoryManagementApplication --o FileIO
+InventoryManagementApplication --o SearchController
+InventoryManagementApplication --o WarningChecker
+InventoryManagementApplication <|-- javafx.application.Application
+@enduml
