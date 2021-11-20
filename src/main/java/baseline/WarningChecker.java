@@ -20,7 +20,7 @@ public class WarningChecker {
     public boolean checkSerial(String serialNumber)
     {
         //checks if the serial number is in the A-XXX-XXX-XXX format
-            String pattern = ("\\D-\\d\\d\\d-\\d\\d\\d-\\d\\d\\d");
+            String pattern = ("\\p{Alpha}-\\w\\w\\w-\\w\\w\\w-\\w\\w\\w");
         return Pattern.matches(pattern, serialNumber);
 
 

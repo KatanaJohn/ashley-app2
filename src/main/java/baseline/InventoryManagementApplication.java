@@ -18,6 +18,7 @@ public class InventoryManagementApplication extends Application {
     public void start(Stage stage) throws Exception {
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("applicationassignment2_gui.fxml")));
         Scene scene = new Scene(root);
+        stage.setResizable(false);
         stage.setTitle("Inventory");
         stage.setScene(scene);
         stage.show();
