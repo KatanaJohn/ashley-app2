@@ -27,7 +27,7 @@ public class Item {
 
     }
 
-
+//creates an item if all the values are passed in
     public Item(String name, String serial, int moneyValue) {
 
         //use this. statements to set them
@@ -38,6 +38,7 @@ public class Item {
     }
 
 
+    //gets and returns name
     public String getName() {
         return name;
     }
@@ -53,19 +54,23 @@ public class Item {
         return serialNumber;
     }
 
+    //sets the serial number to what is passed
     public void setSerialNumber(String serialNumber)
     {
         this.serialNumber = serialNumber;
     }
 
+    //gets value
     public int getValue() {
         return value;
     }
 
+    //sets value
     public void setValue(int moneyValue) {
         this.value = moneyValue;
     }
 
+    //gets the inventory of items
     public static List<Item> getInventory()
     {
         return Inventory;

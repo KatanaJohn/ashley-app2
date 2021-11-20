@@ -54,6 +54,7 @@ class FXMLController
 +void editItem(ActionEvent event)
 +void openInventoryFile(ActionEvent event)
 +void saveInventoryFile(ActionEvent event)
++void displayItem()
 +void loadSearchMenu(ActionEvent event) throws Exception
 }
 

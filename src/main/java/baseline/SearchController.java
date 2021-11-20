@@ -1,3 +1,9 @@
+/*
+ *  UCF COP3330 Fall 2021 Application Assignment 2 Solution
+ *  Copyright 2021 John Ashley
+ */
+
+
 package baseline;
 
 import javafx.collections.FXCollections;
@@ -43,7 +49,7 @@ public class SearchController {
         //set table cell for description
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("Name"));
 
-        //set table cell for
+        //set table cell for value
         valueColumn.setCellValueFactory(new PropertyValueFactory<>("value"));
 
         //set table cell for  due dates
@@ -55,6 +61,7 @@ public class SearchController {
      @FXML
     void searchByName(ActionEvent event) {
 
+        //create an observable list to add items to
          ObservableList<Item> items = FXCollections.observableArrayList();
         String nameSearch = nameField.getText();
 
@@ -66,6 +73,7 @@ public class SearchController {
                 items.add(item);
             }
         }
+        //display the items that match
         displayItem(items);
 
     }
@@ -73,8 +81,9 @@ public class SearchController {
     @FXML
     void searchBySerial(ActionEvent event) {
 
-        //takes serial from search box
+        //create an observable list to add items to
         ObservableList<Item> items = FXCollections.observableArrayList();
+        //takes serial from search box
         String serialSearch = serialField.getText();
 
         //checks the inventory for matching serial numbers and displays it
@@ -91,6 +100,7 @@ public class SearchController {
 
     void displayItem(ObservableList<Item> items)
     {
+        //clears table and displays new set of items (in the case the user does multiple searches)
         tableOfItems.getItems().clear();
         tableOfItems.refresh();
         tableOfItems.setItems(items);
