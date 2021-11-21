@@ -7,6 +7,7 @@
 package baseline;
 
 import com.google.gson.Gson;
+import javafx.scene.control.Alert;
 
 import java.io.*;
 import java.util.*;
@@ -15,40 +16,56 @@ public class FileIO {
 
 
 
+    //alert made in the case a file cant be opened
+    private void alertFileOpen()
+    {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("File Error");
+        alert.setContentText("The file you tried to open could not be opened.");
+        alert.showAndWait();
+    }
+
+    //alert made in the case a file cant be saved
+    private void alertFileSave()
+    {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("File Error");
+        alert.setContentText("The file you tried to save could not be saved.");
+        alert.showAndWait();
+    }
+
+
     public void openHTMLFile(File file) {
         //clears inventory
         Item.getInventory().clear();
 
         //makes strings for values
-        String name;
-        String value;
-        String serial;
-
 
         try (Scanner fileInput = new Scanner(file)) {
 
             while (true) {
-                String currentLine = fileInput.nextLine();
+                String nextLine = fileInput.nextLine();
 
-                if (currentLine.equals("    <th>Serial Number</th>")) {
+                if (nextLine.equals("    <th>Serial Number</th>")) {
 
                     while (true) {
                         fileInput.nextLine();
 
-                        currentLine = fileInput.nextLine();
-                        if (currentLine.equals("</table> ")) {
+                        nextLine = fileInput.nextLine();
+                        if (nextLine.equals("</table> ")) {
                             break;
                         }
 
-
-                        currentLine = fileInput.nextLine();
-                        name = currentLine.replace("<td>", "").replace("</td>", "")
+                        //takes the next line and  gets the name, value, and serial number
+                        nextLine = fileInput.nextLine();
+                        String replacement = "</td>";
+                        String name = nextLine.replace("<td>", "").replace(replacement, "")
                                 .replaceAll("^\s*", "");
-                        currentLine = fileInput.nextLine();
-                        value = currentLine.replace("<td>", "").replace("</td>", "")
+                        nextLine = fileInput.nextLine();
+                        String value = nextLine.replace("<td>", "").replace(replacement, "")
                                 .replaceAll("^\s*", "");
-                        currentLine = fileInput.nextLine();
-                        serial = currentLine.replace("<td>", "").replace("</td>", "")
+                        nextLine = fileInput.nextLine();
+                        String serial = nextLine.replace("<td>", "").replace(replacement, "")
                                 .replaceAll("^\s*", "");
 
                         //adds each next value to the inventory as an item
@@ -57,9 +74,9 @@ public class FileIO {
                     break;
                 }
             }
-            //if somehow the file doesnt open, prints invalid file.
+            //if somehow the file doesnt open, prints error
         } catch (FileNotFoundException e) {
-            System.out.println("Invalid File.");
+            alertFileOpen();
         }
     }
 
@@ -67,13 +84,13 @@ public class FileIO {
     public Item[] openJSONFile(File file) {
         //clears inventory
         Item.getInventory().clear();
-        //reads json file and passes back array of items
+        //reads json file and passes back array of items that were in the file
         try (Reader reader = new FileReader(file)){
             Gson gson = new Gson();
             return gson.fromJson(reader, Item[].class);
             //if somehow the file doesnt open, prints invalid file.
         } catch (IOException e) {
-            System.out.println("Invalid File.");
+            alertFileOpen();
         }
 
 
@@ -86,19 +103,21 @@ public class FileIO {
         //clear inventory when starting
         Item.getInventory().clear();
 
-        Item inventoryList = new Item();
-        String fullLine;
-        //similar to assignment 1, parse lines based on tabs and add them to an inventory
+        String nextLine;
+        //similar to assignment 1, parse lines based on tabs and add them to an inventory until end of file
         try (Scanner input = new Scanner(file)) {
             input.nextLine();
             while (input.hasNextLine()) {
-                fullLine = input.nextLine();
-                String[] itemValues = fullLine.split("\t");
-                Item.getInventory().add(new Item(itemValues[1], itemValues[0], Integer.parseInt(itemValues[2])));
+                //get the next line of values
+                nextLine = input.nextLine();
+                //make an array of strings and parse the nextLine string based on tabs
+                String[] itemValues = nextLine.split("\t");
+                //add item values of the array to the inventory
+                Item.getInventory().add(new Item(itemValues[0], itemValues[2], Integer.parseInt(itemValues[1])));
             }
             //if somehow the file doesnt open, prints invalid file.
         } catch (Exception e) {
-            System.out.println("Invalid File");
+            alertFileOpen();
         }
     }
 
@@ -107,6 +126,7 @@ public class FileIO {
     {
         StringBuilder output = new StringBuilder();
 
+        //html formatting into a table
         output.append("""
                 <!DOCTYPE html>
                 <html>
@@ -118,13 +138,13 @@ public class FileIO {
                                 
                 table {
                   border-collapse: collapse;
-                  border: 1px solid rgb(200,200,200);
+                  border: 2px solid rgb(200,200,200);
                   letter-spacing: 1px;
                   font-size: 1.0rem;
                 }
                                 
                 td, th {
-                  border: 1px solid rgb(200,200,200);
+                  border: 2px solid rgb(200,200,200);
                   padding: 10px 10px;
                 }
                                 
@@ -142,6 +162,7 @@ public class FileIO {
                   </tr>
                   """);
 
+        //for each item in the list, get the name/value/serial and output them
         for (Item item : itemList) {
             output.append("  <tr>%n    <td>").append(item.getName()).append("</td>%n");
             output.append("    <td>").append(item.getValue()).append("</td>%n");
@@ -157,14 +178,14 @@ public class FileIO {
         try(Formatter fileFormat = new Formatter(file.toString())){
             fileFormat.format(output.toString());
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            alertFileSave();
         }
     }
 
 
     public void saveJSONFile(File file, List<Item> itemList) {
         Gson gson = new Gson();
-        //write gson file by converting inventory to gson
+        //write gson file by converting inventory using gson.toJson
         try {
             Writer writer = new FileWriter(file);
             gson.toJson(itemList,writer);
@@ -172,23 +193,23 @@ public class FileIO {
             //if for some reason it doesnt work, note error
         } catch (IOException e) {
 
-            System.out.println("Error making file");
+            alertFileSave();
         }
 
     }
 
 
     public void saveTSVFile(File file, List<Item> itemList) {
-        //format txt file
+        //format txt file in a way to include spacing using \t between name, value, and serial
         try (Formatter output = new Formatter(file)) {
-            output.format("Serial Number\tItem Name\tItem Value%n");
+            output.format("Name\tValue\tSerial Number%n");
             //for each item in the list, format/print it to file
             for (Item item : itemList) {
-                output.format("%s\t%s\t%d%n", item.getSerialNumber(), item.getName(), item.getValue());
+                output.format("%s\t%d\t%s%n", item.getName(), item.getValue(), item.getSerialNumber());
             }
             //if for some reason it doesnt work, note error
         } catch (IOException e) {
-            System.out.println("Error making file");
+            alertFileSave();
         }
     }
 

@@ -14,21 +14,23 @@ public class WarningChecker {
     public boolean checkName(String name)
     {
         //check for string length
-        return name.length() > 1 && name.length() < 256;
+        //if the length is greater than 1 and less than 257, returns true. Else returns false to trigger error
+        return name.length() > 1 && name.length() < 257;
     }
 
     public boolean checkSerial(String serialNumber)
     {
-        //checks if the serial number is in the A-XXX-XXX-XXX format
-            String pattern = ("\\p{Alpha}-\\w\\w\\w-\\w\\w\\w-\\w\\w\\w");
+        //checks if the serial number is in the A-XXX-XXX-XXX format by using a pattern/pattern.matches
+        String pattern = ("\\p{Alpha}-\\w\\w\\w-\\w\\w\\w-\\w\\w\\w");
+        //for every item in the list, checks if the serial number is the same
+        //if the serial number is correct and not matching, return true. else, returns false for an error
         return Pattern.matches(pattern, serialNumber);
 
 
-        //for every item in the list, checks if the serial number is the same
 
 
-        //if the serial number is correct and not matching, return true
-        //else, returns false for an error
+
+
     }
 
     public boolean checkValue(int value)

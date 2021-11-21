@@ -19,6 +19,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Objects;
 
@@ -118,10 +119,8 @@ public class FXMLController {
             currentValue = -1;
         }
 
-        //try catch for this
 
-        //insert check warning for value
-
+        //calls checkName from checker function. If not passed, sends error
         if(!checker.checkName(currentName))
         {
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -129,6 +128,7 @@ public class FXMLController {
             alert.setContentText("Your item name is not between 2 and 256 characters in length.");
             alert.showAndWait();
         }
+        //calls checkSerial from checker function. If not passed, sends error
         else if(!checker.checkSerial(currentSerial) || !checkSameSerial(currentSerial))
         {
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -136,6 +136,7 @@ public class FXMLController {
             alert.setContentText("Your serial number was not input correctly. It should be in the format of A-XXX-XXX-XXX, where a is a letter and x is a letter/digit.");
             alert.showAndWait();
         }
+        //calls checkValue from checker function. If not passed, sends error
         else if(!checker.checkValue(currentValue))
         {
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -143,6 +144,7 @@ public class FXMLController {
             alert.setContentText("Your value is set to a number less than 0. It must be greater than or equal to 0.");
             alert.showAndWait();
         }
+        //if all checks are passed, sets all the values and adds them
         else
         {
             item.setName(currentName);
@@ -163,10 +165,12 @@ public class FXMLController {
 
     }
 
-    public boolean checkSameSerial(String serial)
+    private boolean checkSameSerial(String serial)
     {
+        //for each item in the inventory, checks if the serial number matches the serial of the item we're trying to add
         for(Item i : Item.getInventory())
         {
+            //if the serial numbers match, sends back false boolean to trigger error
             if(i.getSerialNumber().equals(serial))
             {
                 return false;
@@ -223,7 +227,7 @@ public class FXMLController {
 
         //try catch for this
 
-        //insert check warning for value
+        //calls checkName from checker function. If not passed, sends error
         if(!checker.checkName(currentName))
         {
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -231,6 +235,7 @@ public class FXMLController {
             alert.setContentText("Your item name is not between 2 and 256 characters in length.");
             alert.showAndWait();
         }
+        //calls checkSerial from checker function. If not passed, sends error
         else if(!checker.checkSerial(currentSerial) || !checkSameSerial(currentSerial))
         {
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -238,6 +243,7 @@ public class FXMLController {
             alert.setContentText("Your serial number was not input correctly. It should be in the format of A-XXX-XXX-XXX, where a is a letter and x is a letter/digit.");
             alert.showAndWait();
         }
+        //calls checkValue from checker function. If not passed, sends error
         else if(!checker.checkValue(currentValue))
         {
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -273,12 +279,14 @@ public class FXMLController {
         //set table cell for  due dates
         serialColumn.setCellValueFactory(new PropertyValueFactory<>("serialNumber"));
 
+        //gets the items from the inventory and adds them to the table
         tableOfItems.getItems().add(Item.getInventory().get(index));
+        //increase index by 1
         index++;
     }
 
     @FXML
-    void openInventoryFile(ActionEvent event) {
+    void openInventoryFile(ActionEvent event) throws FileNotFoundException {
 
         String html = "*.html";
         String gson = "*.gson";
@@ -288,7 +296,7 @@ public class FXMLController {
         if(this.tableOfItems!= null){
             tableOfItems.getItems().clear();
         }
-        //set index to 0.
+        //set index to 0 for display function
         index = 0;
 
         //use a file chooser, create fileIO object, set the title, add all extensions, and open file dialog
@@ -309,6 +317,7 @@ public class FXMLController {
                fileIO.openHTMLFile(file);
             } else if (fileChooser.getSelectedExtensionFilter().getExtensions().get(0).equals(gson)) {
                 Item[] itemList = fileIO.openJSONFile(file);
+                //for gson specifically, for each item it gets the values and adds them back to the list
                 for (Item value : itemList) {
                     Item item = new Item(value.getName(), value.getSerialNumber(), value.getValue());
                     Item.getInventory().add(item);
@@ -319,6 +328,7 @@ public class FXMLController {
             }
         }
 
+        //after remaking the inventory list, display all items in table
         for(int i = 0; i < Item.getInventory().size(); i++)
         {
             displayList();
@@ -356,6 +366,7 @@ public class FXMLController {
             } else if (fileChooser.getSelectedExtensionFilter().getExtensions().get(0).equals(tsv)) {
                 fileIO.saveTSVFile(file, Item.getInventory());
             }
+            //if somehow a file not related to any of the types is chosen, sends alert
             else
             {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -371,6 +382,7 @@ public class FXMLController {
 
 
 
+    //this function loads a search menu fxml file for search functions (SearchController)
     @FXML
     void loadSearchMenu(ActionEvent event) throws IOException
     {

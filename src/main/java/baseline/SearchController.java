@@ -74,7 +74,7 @@ public class SearchController {
             }
         }
         //display the items that match
-        displayItem(items);
+        displayList(items);
 
     }
 
@@ -94,11 +94,11 @@ public class SearchController {
                 items.add(item);
             }
         }
-        displayItem(items);
+        displayList(items);
     }
 
 
-    void displayItem(ObservableList<Item> items)
+    private void displayList(ObservableList<Item> items)
     {
         //clears table and displays new set of items (in the case the user does multiple searches)
         tableOfItems.getItems().clear();

@@ -48,25 +48,27 @@ class FXMLController
 -TextField valueField
 +void initialize()
 +void addItem(ActionEvent event)
-+boolean checkSameSerial(String serial)
+-boolean checkSameSerial(String serial)
 +void deleteAll(ActionEvent event)
 +void deleteItem(ActionEvent event)
 +void editItem(ActionEvent event)
-+void openInventoryFile(ActionEvent event)
++void displayList()
++void openInventoryFile(ActionEvent event) throws FileNotFoundException
 +void saveInventoryFile(ActionEvent event)
-+void displayItem()
-+void loadSearchMenu(ActionEvent event) throws Exception
+void loadSearchMenu(ActionEvent event) throws IOException
 }
+
 
 class FileIO
 {
-+saveJSONFile(File file, List<Item> inventoryList)
 +Item openHTMLFile(File file)
 +Item openJSONFile(File file)
 +Item openTSVFile(File file)
-+void saveHTMLFile(File file, List<Item> inventoryList)
-+void saveJSONFile(File file, List<Item> inventoryList)
++void saveHTMLFile(File file, List<Item> itemList)
++void saveJSONFile(File file, List<Item> itemList)
 +void saveTSVFile(File file, List<Item> itemList)
+-void alertFileOpen()
+-void alertFileSave()
 }
 
 class SearchController
@@ -82,7 +84,7 @@ class SearchController
 +void initialize()
 +void searchByName(ActionEvent event)
 +void searchBySerial(ActionEvent event)
-+void displayItem(ObservableList<Item> items)
+-void displayList(ObservableList<Item> items)
 
 }
 
@@ -95,8 +97,8 @@ class WarningChecker
 
 InventoryManagementApplication --o Item
 InventoryManagementApplication --o FXMLController
-InventoryManagementApplication --o FileIO
-InventoryManagementApplication --o SearchController
-InventoryManagementApplication --o WarningChecker
+FXMLController --o FileIO
+FXMLController --o WarningChecker
+FXMLController --o SearchController
 InventoryManagementApplication <|-- javafx.application.Application
 @enduml
