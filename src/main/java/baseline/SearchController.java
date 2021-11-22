@@ -54,8 +54,6 @@ public class SearchController {
 
         //set table cell for  due dates
         serialColumn.setCellValueFactory(new PropertyValueFactory<>("serialNumber"));
-
-
     }
 
      @FXML
@@ -75,7 +73,6 @@ public class SearchController {
         }
         //display the items that match
         displayList(items);
-
     }
 
     @FXML

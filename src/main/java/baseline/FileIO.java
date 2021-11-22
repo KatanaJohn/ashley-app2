@@ -39,20 +39,23 @@ public class FileIO {
         //clears inventory
         Item.getInventory().clear();
 
-        //makes strings for values
+        //goes through each line in the file
+        try (Scanner fileInput = new Scanner(file))
+        {
 
-        try (Scanner fileInput = new Scanner(file)) {
-
-            while (true) {
+            while (true)
+            {
                 String nextLine = fileInput.nextLine();
 
                 if (nextLine.equals("    <th>Serial Number</th>")) {
 
-                    while (true) {
+                    while (true)
+                    {
                         fileInput.nextLine();
 
                         nextLine = fileInput.nextLine();
-                        if (nextLine.equals("</table> ")) {
+                        if (nextLine.equals("</table> "))
+                        {
                             break;
                         }
 
@@ -75,7 +78,8 @@ public class FileIO {
                 }
             }
             //if somehow the file doesnt open, prints error
-        } catch (FileNotFoundException e) {
+        } catch (FileNotFoundException e)
+        {
             alertFileOpen();
         }
     }
@@ -85,11 +89,13 @@ public class FileIO {
         //clears inventory
         Item.getInventory().clear();
         //reads json file and passes back array of items that were in the file
-        try (Reader reader = new FileReader(file)){
+        try (Reader reader = new FileReader(file))
+        {
             Gson gson = new Gson();
             return gson.fromJson(reader, Item[].class);
             //if somehow the file doesnt open, prints invalid file.
-        } catch (IOException e) {
+        } catch (IOException e)
+        {
             alertFileOpen();
         }
 
@@ -105,9 +111,11 @@ public class FileIO {
 
         String nextLine;
         //similar to assignment 1, parse lines based on tabs and add them to an inventory until end of file
-        try (Scanner input = new Scanner(file)) {
+        try (Scanner input = new Scanner(file))
+        {
             input.nextLine();
-            while (input.hasNextLine()) {
+            while (input.hasNextLine())
+            {
                 //get the next line of values
                 nextLine = input.nextLine();
                 //make an array of strings and parse the nextLine string based on tabs
@@ -116,7 +124,8 @@ public class FileIO {
                 Item.getInventory().add(new Item(itemValues[0], itemValues[2], Integer.parseInt(itemValues[1])));
             }
             //if somehow the file doesnt open, prints invalid file.
-        } catch (Exception e) {
+        } catch (Exception e)
+        {
             alertFileOpen();
         }
     }
@@ -163,7 +172,8 @@ public class FileIO {
                   """);
 
         //for each item in the list, get the name/value/serial and output them
-        for (Item item : itemList) {
+        for (Item item : itemList)
+        {
             output.append("  <tr>%n    <td>").append(item.getName()).append("</td>%n");
             output.append("    <td>").append(item.getValue()).append("</td>%n");
             output.append("    <td>").append(item.getSerialNumber()).append("</td>%n  </tr>%n");
@@ -175,9 +185,12 @@ public class FileIO {
                 </body>
                 </html>""");
 
-        try(Formatter fileFormat = new Formatter(file.toString())){
+        try(Formatter fileFormat = new Formatter(file.toString()))
+        {
             fileFormat.format(output.toString());
-        } catch (FileNotFoundException e) {
+            //if for some reason it doesnt work, note error
+        } catch (FileNotFoundException e)
+        {
             alertFileSave();
         }
     }
@@ -186,13 +199,14 @@ public class FileIO {
     public void saveJSONFile(File file, List<Item> itemList) {
         Gson gson = new Gson();
         //write gson file by converting inventory using gson.toJson
-        try {
+        try
+        {
             Writer writer = new FileWriter(file);
             gson.toJson(itemList,writer);
             writer.close();
             //if for some reason it doesnt work, note error
-        } catch (IOException e) {
-
+        } catch (IOException e)
+        {
             alertFileSave();
         }
 
@@ -201,14 +215,17 @@ public class FileIO {
 
     public void saveTSVFile(File file, List<Item> itemList) {
         //format txt file in a way to include spacing using \t between name, value, and serial
-        try (Formatter output = new Formatter(file)) {
+        try (Formatter output = new Formatter(file))
+        {
             output.format("Name\tValue\tSerial Number%n");
             //for each item in the list, format/print it to file
-            for (Item item : itemList) {
+            for (Item item : itemList)
+            {
                 output.format("%s\t%d\t%s%n", item.getName(), item.getValue(), item.getSerialNumber());
             }
             //if for some reason it doesnt work, note error
-        } catch (IOException e) {
+        } catch (IOException e)
+        {
             alertFileSave();
         }
     }

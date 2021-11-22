@@ -5,7 +5,6 @@
 
 package baseline;
 
-
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -17,7 +16,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -96,7 +94,9 @@ public class FXMLController {
 
     }
 
+    //used for display
     private int index = 0;
+    //used for all the checks that trigger errors/alerts
     private final WarningChecker checker = new WarningChecker();
 
 
@@ -105,15 +105,18 @@ public class FXMLController {
 
         //creates a new inventory item
         Item item = new Item();
-
-        //gets the values from the text fields
+        //gets value from name field
         String currentName = nameField.getText();
+        //gets value from serial field
         String currentSerial = serialField.getText();
+
         int currentValue;
+        //if the valueField can be parsed, the monetary/current value is set to it
         try
         {
             currentValue = Integer.parseInt(valueField.getText());
         }
+        //otherwise set to -1 if not an integer (automatically causes error)
         catch(Exception e)
         {
             currentValue = -1;
@@ -147,6 +150,7 @@ public class FXMLController {
         //if all checks are passed, sets all the values and adds them
         else
         {
+            //if all the checks are passed, the item values are set
             item.setName(currentName);
             item.setSerialNumber(currentSerial);
             item.setValue(currentValue);
@@ -154,10 +158,6 @@ public class FXMLController {
             tableOfItems.getItems().add(item);
             Item.Inventory.add(item);
         }
-
-
-
-
         //clears all item boxes
         nameField.clear();
         valueField.clear();
@@ -182,18 +182,21 @@ public class FXMLController {
     @FXML
     void deleteAll(ActionEvent event) {
 
-        //deletes entire inventory and table
+        //deletes entire inventory
         Item.getInventory().clear();
+        //removes entire table of items displayed in the program
         tableOfItems.getItems().clear();
     }
 
     @FXML
     void deleteItem(ActionEvent event) {
 
-        //get selected row and get all the items within the list
+        //get selected item based on the row a user selects
         Item selectedItem = tableOfItems.getSelectionModel().getSelectedItem();
         ObservableList<Item> itemSelected;
+        //make observable list of all items
         ObservableList<Item> allItems;
+        //get all the items from the table
         allItems = tableOfItems.getItems();
         itemSelected = tableOfItems.getSelectionModel().getSelectedItems();
 
@@ -208,24 +211,27 @@ public class FXMLController {
         //very similar to add item
         int idx = tableOfItems.getSelectionModel().getSelectedIndex();
 
+        //create new blank item
         Item item = new Item();
         //get values from name field
         String currentName = nameField.getText();
+        //get value from serial field
         String currentSerial = serialField.getText();
 
-        //insert check warning for name
 
+
+        //try to parse the integer for current value
         int currentValue;
         try
         {
             currentValue = Integer.parseInt(valueField.getText());
         }
+        //otherwise set to -1
         catch(Exception e)
         {
             currentValue = -1;
         }
 
-        //try catch for this
 
         //calls checkName from checker function. If not passed, sends error
         if(!checker.checkName(currentName))
@@ -261,7 +267,6 @@ public class FXMLController {
             tableOfItems.getItems().set(idx, item);
             Item.Inventory.set(idx, item);
         }
-
         //clears all the fields
         nameField.clear();
         valueField.clear();
@@ -293,7 +298,8 @@ public class FXMLController {
         String tsv = "*.txt";
 
         //check if table is null and clear if not
-        if(this.tableOfItems!= null){
+        if(this.tableOfItems!= null)
+        {
             tableOfItems.getItems().clear();
         }
         //set index to 0 for display function
@@ -312,19 +318,32 @@ public class FXMLController {
 
 
         //when the user selects a file, go through the function that matches the extension
-        if (file != null) {
-            if (fileChooser.getSelectedExtensionFilter().getExtensions().get(0).equals(html)) {
+        if (file != null)
+        {
+            if (fileChooser.getSelectedExtensionFilter().getExtensions().get(0).equals(html))
+            {
                fileIO.openHTMLFile(file);
-            } else if (fileChooser.getSelectedExtensionFilter().getExtensions().get(0).equals(gson)) {
+            }
+            else if (fileChooser.getSelectedExtensionFilter().getExtensions().get(0).equals(gson))
+            {
                 Item[] itemList = fileIO.openJSONFile(file);
                 //for gson specifically, for each item it gets the values and adds them back to the list
-                for (Item value : itemList) {
+                for (Item value : itemList)
+                {
                     Item item = new Item(value.getName(), value.getSerialNumber(), value.getValue());
                     Item.getInventory().add(item);
                 }
-
-            } else {
+            }
+            else if(fileChooser.getSelectedExtensionFilter().getExtensions().get(0).equals(tsv))
+            {
                 fileIO.openTSVFile(file);
+            }
+            else
+            {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle(alertSignal);
+                alert.setContentText("The file you chose is not valid.");
+                alert.showAndWait();
             }
         }
 
@@ -358,12 +377,16 @@ public class FXMLController {
         //creates new FileIO so when we call it we save based on it
         FileIO fileIO = new FileIO();
         //based on the file type chosen, we save the inventory inside a file
-        if (file != null) {
-            if (fileChooser.getSelectedExtensionFilter().getExtensions().get(0).equals(html)) {
+        if (file != null)
+        {
+            if (fileChooser.getSelectedExtensionFilter().getExtensions().get(0).equals(html))
+            {
                 fileIO.saveHTMLFile(file, Item.getInventory());
-            } else if (fileChooser.getSelectedExtensionFilter().getExtensions().get(0).equals(gson)) {
+            } else if (fileChooser.getSelectedExtensionFilter().getExtensions().get(0).equals(gson))
+            {
                 fileIO.saveJSONFile(file, Item.getInventory());
-            } else if (fileChooser.getSelectedExtensionFilter().getExtensions().get(0).equals(tsv)) {
+            } else if (fileChooser.getSelectedExtensionFilter().getExtensions().get(0).equals(tsv))
+            {
                 fileIO.saveTSVFile(file, Item.getInventory());
             }
             //if somehow a file not related to any of the types is chosen, sends alert

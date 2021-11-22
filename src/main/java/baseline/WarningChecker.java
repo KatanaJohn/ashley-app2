@@ -25,12 +25,6 @@ public class WarningChecker {
         //for every item in the list, checks if the serial number is the same
         //if the serial number is correct and not matching, return true. else, returns false for an error
         return Pattern.matches(pattern, serialNumber);
-
-
-
-
-
-
     }
 
     public boolean checkValue(int value)
@@ -38,8 +32,6 @@ public class WarningChecker {
         //checks if the money value is >= 0.
         //returns true if so, false if not to trigger error
         return value >= 0;
-
-
     }
 
 
