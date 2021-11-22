@@ -10,7 +10,7 @@ import java.util.Scanner;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class FileIOTest {
+class FileIOTest {
 
 
 
@@ -117,7 +117,6 @@ public class FileIOTest {
     @Test
     void saveAndOpenHTMLFile() throws IOException {
         Item.Inventory.clear();
-        Gson gson = new Gson();
         Item item1 = new Item("nametest", "a-400-c32-200", 500);
         Item item2 = new Item("nametest2", "A-500-b40-300", 350);
         Item.Inventory.add(item1);
